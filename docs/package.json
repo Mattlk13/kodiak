@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "devDependencies": {
+    "@types/react": "^16.9.17",
+    "docusaurus": "^1.14.3",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.4"
+  }
+}

@@ -7,29 +7,298 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.46.0 - 2021-09-24
+
+### Added
+- `.github/` repository support for configuration. Create a repository named `.github` with your `.kodiak.toml` to centralize your `.kodiak.toml` configuration. Thanks @LeoQuote! (#729)
+
+### Changed
+- `merge.message.include_pull_request_url` to prefix URL with `PR-URL:`. Thanks @jbergstroem! (#730)
+
+### Fixed
+- support GitHub Enterprise 3.0. (#734)
+
+## 0.45.0 - 2021-08-23
+
+### Added
+- Support Renovate for dependency updates by upgrade type. (#713, #715)
+
+## 0.44.0 - 2021-07-20
+
+### Added
+- TLS support for Redis connections. Thanks @zetaron! (#695)
+- requiresConversationResolution branch protection support. (#692)
+
+## 0.43.0 - 2021-07-10
+
+### Fixed
+- fixed Kodiak incorrectly saying a PR was not mergeable when there were duplicated check runs. (#688)
+
+## 0.42.1 - 2021-06-23
+
+### Fixed
+- fixed Kodiak-breaking bug from release 0.42.0 (#676)
+- fixed short HTTP timeouts for GitHub API requests negatively impacting Kodiak's reliability. (#678)
+
+## 0.42.0 - 2021-06-20
+
+### Added
+- use [fixed IP addresses](https://kodiakhq.com/docs/troubleshooting#github-enterprise-ip-allow-list) for sending GitHub API requests to support GitHub Enterprise Cloud IP address allow list. (#666, #673)
+
+### Fixed
+- fixed typo in config reference documentation. Thanks @AndersDJohnson! (#663)
+
+## 0.41.0 - 2021-06-04
+
+### Changed
+- Configuration file (`.kodiak.toml`) is now read from a pull request's base branch instead of repository default branch. (#152, #634)
+
+### Fixed
+- fixed handling of "check run" webhooks to ignore pull requests from other repositories. (#644)
+- When fetching open pull requests, Kodiak now loads up to 20 pages of 100 pull requests. Previously Kodiak would only fetch a single page of 30 pull requests. Thanks [@wuub](https://github.com/wuub) for the contribution! (#649)
+
+## 0.40.0 - 2021-03-26
+
+### Changed
+- requested the repository "Workflow" permission to allow Kodiak to merge pull requests that modify GitHub Workflow files. (#641, #642)
+
+## 0.39.0 - 2021-03-21
+
+### Fixed
+- fix merge queues not displaying in dashboard and merging pull request not appearing. (#632, #623, #621, #635)
+- `merge.message.include_pull_request_url` no longer overrides  `merge.body = "github_default"`. (#622, #631)
+
+## 0.38.0 - 2021-03-18
+
+### Added
+- added [`"rebase_fast_forward"` merge method](https://kodiakhq.com/docs/config-reference#mergemethod) to support fast forward rebase merges without rewriting commits. Thanks [@brock8503](https://github.com/brock8503) and [@andrewhampton](https://github.com/andrewhampton) for the contribution! (#625)
+- added [documentation for web dashboard](https://kodiakhq.com/docs/dashboard). (#620)
+
+## 0.37.0 - 2021-03-07
+
+### Added
+- added a list of active merge queues to the [dashboard](https://app.kodiakhq.com). You can see the pull requests in each active queue. Queues are only displayed if they have pull requests. This information is at the bottom of the Activity page. (#617, #616)
+
+## 0.36.0 - 2021-01-30
+
+### Added
+- added `merge.automerge_dependencies` to support auto merging Dependabot pull requests by upgrade type ("major", "minor", "patch"). See the ["Configuring automerge by upgrade type"](https://kodiakhq.com/docs/recipes#configuring-automerge-by-upgrade-type) recipe for more information.
+
+## 0.35.0 - 2020-12-13
+
+### Added
+- added `merge.message.cut_body_before` (thanks @scriptnull) and `merge.message.cut_body_after` config options. (#589, #595)
+- added better messaging for GitHub API failures. (#594)
+
+### Fixed
+- fixed typo in readme (thanks @scriptnull). (#587)
+- fixed typo in docs (thanks @yowainwright). (#590)
+
+## 0.34.0 - 2020-11-29
+
+### Added
+- add new config option (`merge.priority_merge_label`) to place PR at front of merge queue. (#573, #555)
+- add merge queue per target branch (#572, #556)
+
+### Changed
+- merge commits are now excluded when calculating pull request coauthors for `merge.message.include_coauthors`. (#581, #576)
+- coauthor trailers are now only prefixed with new lines if the commit message is non empty. (#578, #577)
+
+## 0.33.0 - 2020-11-22
+
+### Added
+- [@rdmulford](https://github.com/rdmulford) added support for GitHub Enterprise. Thanks! API paths can now be specified via environment variables. See the [self hosting docs](https://kodiakhq.com/docs/self-hosting) for more information. (#566)
+
+### Changed
+- `merge.message.body` no longer overrides `merge.message.include_coauthors`. (#561)
+
+## 0.32.0 - 2020-10-31
+
+### Changed
+- `update.ignored_usernames` now blocks all pull request updates. `update.autoupdate_label` can be used to override this setting. (#544, #547, #537)
+
+### Fixed
+- Handle null pull request review author (#541)
+
+## 0.31.0 - 2020-10-24
+
+### Added
+- Added [`update.autoupdate_label`](https://kodiakhq.com/docs/config-reference#updateautoupdate_label) configuration option to support immediate updates of specific PRs. (#529, #536, #538)
+
+## 0.30.0 - 2020-10-10
+
+### Added
+- Added support for specifying multiple automerge labels by setting `merge.automerge_label` to an array of strings instead of a string. (#516, #522)
+- Added GitHub CodeOwners support. (#509)
+
+### Fixed
+- Fixed Draft PR handling to support a breaking change being made to the GitHub GraphQL API on January 1st, 2021. Older versions of Kodiak will not handle Draft PRs correctly after Jan 1, 2021. (#531)
+
+## 0.29.0 - 2020-09-05
+
+### Added
+- Added ability to override `merge.method` with a label like `kodiak:merge.method='rebase'`. (#476, #501, #504)
+- Added contact emails field to billing page to specify additional contact emails. (#499, #502)
+
+## 0.28.0 - 2020-08-10
+
+### Fixed
+- Fixed conflict between `merge.blocking_title_regex` and the trigger test commit logic that prevent `update.always` from working. (#482, #483)
+
+### Changed
+- Added distinct "speed" and "efficiency" recipes to docs. (#480)
+
+## 0.27.0 - 2020-07-18
+
+### Changed
+- Kodiak now sets a status check on merge ("merge complete 🎉"). Previously the last status check set by Kodiak would be unchanged ("⛴ attempting to merge PR (merging)"). (#469)
+
+## 0.26.0 - 2020-07-09
+
+### Changed
+- `merge.method` now defaults to the first valid merge method in the list `"merge"`, `"squash"`, and `"rebase"`. Previously the default was always `"merge"`, even when that method was disabled on a repository. See [the configuration reference](https://kodiakhq.com/docs/config-reference#mergemethod) for more information. (#464, #466)
+
+## 0.25.0 - 2020-06-22
+
+### Added
+- add annual subscription billing option. (#439, #451, #452)
+- add option in dashboard to limit billing modifications to GitHub Owners. (#453)
+- add new options to replace `blacklist_`-style options: `merge.blacklist_title_regex` -> `merge.blocking_title_regex`, `merge.blacklist_labels` -> `merge.blocking_labels`, `update.blacklist_usernames` -> `update.ignored_usernames`. (#444, #454)
+- add more examples for using Kodiak with Dependabot to docs. (#448)
+
+### Changed
+- better explain `merge.optimistic_updates` option in docs. (#449)
+
+## 0.24.0 - 2020-06-14
+
+### Added
+- add `merge.message.coauthors` configuration option to add commit authors as coauthors of a PR. See the [Kodiak docs for more information](https://kodiakhq.com/docs/config-reference#mergemessageinclude_coauthors). (#420, #434)
+- add UI to allow editing billing email, company name, and postal address. Company name and postal address will appear on invoices if provided. (#431, #432)
+
+### Changed
+- Redesigned UI for subscriptions page to better present trial, subscription, and enterprise plans. (#427, #433)
+
+### Fix
+- allow scrolling on margins in Kodiak dashboard
+
+## 0.23.0 - 2020-06-06
+
+### Added
+- disable Kodiak for a pull request when we encounter an internal server error from the GitHub API merge endpoint. (#398, #402)
+
+### Changed
+- updated self-hosting documentation to include updated list of GitHub Events (#405)
+- improved seat usage tracking to assign users to seats. Subscribers will be able to access their seats even if they have an overage. (#410)
+
+### Fixed
+- fix URL escaping of branch names and label names in API calls (#408)
+
+## 0.22.0 - 2020-05-15
+
+### Added
+- add link to billing history in dashboard. (#365)
+- add alert to dashboard for subscription overages and trial expirations. (#373)
+- add configuration error when "Restrict Pushes" branch protection setting is misconfigured. Kodiak needs to be added as an exception. (#379)
+
+### Changed
+- Kodiak is now free for personal GitHub accounts (#367, #368)
+- merge conflict notifications now takes priority over [`merge.blacklist_title_regex`](https://kodiakhq.com/docs/config-reference#mergeblacklist_title_regex). (#371)
+- skip branch deletion if GitHub branch deletion is enabled on the repository (#382)
+- 
+
+### Fixed
+- fix trial/subscription expiration timezone to show correct timezone. Previously it was just saying "UTC". (#363)
+- fix start subscription form to default to the current seat usage. Also display warning when user selects fewer seats than current usage. (#367)
+- fixed dashboard oauth login flow not handling organization collaborators. (#375)
+- fixed logic to queue pull request for reevaluation when UNKNOWN mergeability status check is received. (#380)
+- fixed `merge.update_branch_immediately` logic causing merge loop to return unintentionally. (#381)
+
+### Removed
+- removed invalid "quickstart" link from navbar (#370)
+
+## 0.21.0 - 2020-05-05
+
+### Added
+- add support for `requiresCommitSignatures` with the squash merge method (#275)
+- add documentation for billing at http://kodiakhq.com/docs/billing. (#348, #349, #358)
+
+### Fixed
+- fix handling of rare status checks. Treat `CANCELLED` as failure like GitHub. Support `STALE` and `SKIPPED` states.
+- fix order of account names on dashboard accounts page to be alphabetical.
+
+## 0.20.0 - 2020-04-22
+
+### Added
+- add billing support to bot and dashboard. More information can be found at https://kodiakhq.com/docs/billing. (#325, #337, #340, #339, #342)
+- add ansible playbook for deploying web services (api, ui, crons, event ingestion) (#331)
+
+### Fixed
+- fix missing cache-control headers to disable caching of index.html for dashboard. (#334, #336)
+
+## 0.19.0 - 2020-03-29
+
+### Added
+- add `update.blacklist_usernames` to enable Kodiak to skip automatic updates for PRs opened by certain users. This is useful for making Kodiak play nicely with Dependabot. See the [configuration reference](https://kodiakhq.com/docs/config-reference#updateblacklist_usernames) and the [Dependabot recipe](https://kodiakhq.com/docs/recipes#automated-dependency-updates-with-dependabot) for more information. This feature was contributed by Negan1911. (#327)
+
+## 0.18.0 - 2020-03-04
+
+### Added
+- add web dashboard accessible at https://app.kodiakhq.com. This website enables viewing Kodiak activity.
+- add `merge.message.include_pull_request_author` configuration option to append pull request author information as a coauthor in the merge commit. (#301)
+
+## 0.17.0 - 2020-01-26
+
+### Added
+- add `approve.auto_approve_usernames` to enable Kodiak to auto approve PRs. This option enables bots like Dependabot to automatically merge PRs when the GitHub Branch Protection "Required approving reviews" is configured. See https://kodiakhq.com/docs/recipes#automated-dependency-updates-with-dependabot for an example. (#260)
+
+## 0.16.0 - 2020-01-25
+
+### Fixed
+- fixed status event handler triggering reevaluations of all PRs in a repository. Now we only trigger updates for PRs directly related to a status event. (#248)
+- replaced inaccurate webhook event schemas with simplified versions to curtail parsing errors. Now we only parse the little information we need from each webhook event. This issue was preventing some webhook events from triggering reevaluations of PRs. (#262, #261)
+
+## 0.15.0 - 2020-01-18
+
+### Fixed
+- fixed `merge.delete_branch_on_merge` deleting branches that had open PRs against them. This fix eliminates a confusing bug where it would look like Kodiak closed the dependent PR. What happened was Kodiak deleted a branch on which that PR was dependent, so the PR was forced to be closed by GitHub. (#232)
+- fixed bug in webhook event handling where we wouldn't trigger evaluation for PRs when their dependent branch updated. We now use the `push` event to trigger evaluation of PRs that depend on the pushed ref. (#244)
+
+## 0.14.0 - 2020-01-12
+
+### Added
+- add support for placing `.kodiak.toml` at `.github/.kodiak.toml`. (#227)
+
+
+### Changed
+- updated warnings to allow commit signature branch protection setting when "merge" is configured as Kodiak's merge method. Kodiak is able to create signatures for merge commits, but not for squash and rebase merge methods (GitHub limitation). (#230)
+
+
+### Fixed
+- add handling to support reviews created by bots. A bot is not compatible with user API endpoints, so when a bot review was added Kodiak would fail when evaluating permissions on the bot. (#231)
+
 ## 0.13.0 - 2020-01-06
 
 ### Added
-- add `update.always` and `update.require_automerge_label` configuration options. When `update.always = true`, Kodiak will update a branch immediately, regardless of failing mergeability requirements (e.g. missing/failing checks, title blacklist regex, blacklist labels). When `update.require_automerge_label = false` with `update.always = true`, Kodiak will update a PR even if missing the automerge label defined in `merge.automerge_label`.
+- add `update.always` and `update.require_automerge_label` configuration options. When `update.always = true`, Kodiak will update a branch immediately, regardless of failing mergeability requirements (e.g. missing/failing checks, title blacklist regex, blacklist labels). When `update.require_automerge_label = false` with `update.always = true`, Kodiak will update a PR even if missing the automerge label defined in `merge.automerge_label`. (#174, #198, #213)
 
 ### Deprecated
-- discourage use of `merge.update_branch_immediately` configuration option. This setting will not be removed, but its use is discouraged because it can produce unexpected results. The behavior of `update.always` is easier to understand.
+- discourage use of `merge.update_branch_immediately` configuration option. This setting will not be removed, but its use is discouraged because it can produce unexpected results. The behavior of `update.always` is easier to understand. (#198)
 
 ## 0.12.0 - 2020-01-04
 
 ### Changed
-- refactored core update/merge eligibility logic. This was a large change and should make future features significantly easier to implement and test.
+- refactored core update/merge eligibility logic. This was a large change and should make future features significantly easier to implement and test. (#207)
 
 
 ### Security
-- removed potential Regex Denial of Service (ReDoS) vulnerability from `merge.blacklist_title_regex` by using a regex engine ([rure][rure-python]) that guarantees linear time searching.
+- removed potential Regex Denial of Service (ReDoS) vulnerability from `merge.blacklist_title_regex` by using a regex engine ([rure][rure-python]) that guarantees linear time searching. (#211)
 
 [rure-python]: https://github.com/davidblewett/rure-python
 
 ## 0.11.0 - 2019-12-20
 
 ### Added
-- updating of PRs made from forks. The merges API endpoint Kodiak had been using for updating branches didn't work across forks due to GitHub permissions. A [new API endpoint][update-branch-blog] was released in late May 2019 that avoided any permission issue, but wasn't noticed until 2019-12-12 🤦‍♀️. This change should make Kodiak more useful for public projects.
+- updating of PRs made from forks. The merges API endpoint Kodiak had been using for updating branches didn't work across forks due to GitHub permissions. A [new API endpoint][update-branch-blog] was released in late May 2019 that avoided any permission issue, but wasn't noticed until 2019-12-12 🤦‍♀️. This change should make Kodiak more useful for public projects. (#104, #202)
 
 [update-branch-blog]: https://developer.github.com/changes/2019-05-29-update-branch-api/
 

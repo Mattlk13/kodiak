@@ -1,0 +1,18 @@
+{
+  "docs": {
+    "Getting Started": [
+      "quickstart",
+      "config-reference",
+      "features",
+      "recipes",
+      "dashboard",
+      "billing",
+      "troubleshooting",
+      "permissions",
+      "self-hosting",
+      "why-and-how",
+      "prior-art-and-alternatives"
+    ],
+    "Contributing": ["contributing", "sponsoring"]
+  }
+}
