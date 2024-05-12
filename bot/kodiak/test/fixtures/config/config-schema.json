@@ -1,0 +1,434 @@
+{
+  "title": "V1",
+  "type": "object",
+  "properties": {
+    "version": {
+      "title": "Version",
+      "type": "integer"
+    },
+    "app_id": {
+      "title": "App Id",
+      "type": "string"
+    },
+    "merge": {
+      "title": "Merge",
+      "default": {
+        "automerge_label": "automerge",
+        "automerge_dependencies": {
+          "versions": [],
+          "usernames": []
+        },
+        "require_automerge_label": true,
+        "show_missing_automerge_label_message": true,
+        "blacklist_title_regex": ":::|||kodiak|||internal|||reserved|||:::",
+        "blocking_title_regex": ":::|||kodiak|||internal|||reserved|||:::",
+        "blacklist_labels": [],
+        "blocking_labels": [],
+        "method": null,
+        "delete_branch_on_merge": false,
+        "block_on_reviews_requested": false,
+        "block_on_neutral_required_check_runs": false,
+        "notify_on_conflict": true,
+        "optimistic_updates": true,
+        "message": {
+          "title": "github_default",
+          "body": "github_default",
+          "include_pr_number": true,
+          "body_type": "markdown",
+          "strip_html_comments": false,
+          "include_pull_request_author": false,
+          "include_coauthors": false,
+          "include_pull_request_url": false,
+          "cut_body_before": "",
+          "cut_body_after": "",
+          "cut_body_and_text": false
+        },
+        "dont_wait_on_status_checks": [],
+        "update_branch_immediately": false,
+        "prioritize_ready_to_merge": false,
+        "priority_merge_label": null,
+        "do_not_merge": false
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Merge"
+        }
+      ]
+    },
+    "update": {
+      "title": "Update",
+      "default": {
+        "always": false,
+        "require_automerge_label": true,
+        "autoupdate_label": null,
+        "blacklist_usernames": [],
+        "ignored_usernames": []
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Update"
+        }
+      ]
+    },
+    "approve": {
+      "title": "Approve",
+      "default": {
+        "auto_approve_usernames": [],
+        "auto_approve_labels": []
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Approve"
+        }
+      ]
+    },
+    "disable_bot_label": {
+      "title": "Disable Bot Label",
+      "default": "kodiak:disabled",
+      "type": "string"
+    }
+  },
+  "required": [
+    "version"
+  ],
+  "definitions": {
+    "AutomergeDependencies": {
+      "title": "AutomergeDependencies",
+      "type": "object",
+      "properties": {
+        "versions": {
+          "title": "Versions",
+          "default": [],
+          "type": "array",
+          "items": {
+            "enum": [
+              "major",
+              "minor",
+              "patch"
+            ],
+            "type": "string"
+          }
+        },
+        "usernames": {
+          "title": "Usernames",
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MergeMethod": {
+      "title": "MergeMethod",
+      "description": "An enumeration.",
+      "enum": [
+        "merge",
+        "squash",
+        "rebase",
+        "rebase_fast_forward"
+      ],
+      "type": "string"
+    },
+    "MergeTitleStyle": {
+      "title": "MergeTitleStyle",
+      "description": "An enumeration.",
+      "enum": [
+        "github_default",
+        "pull_request_title"
+      ]
+    },
+    "MergeBodyStyle": {
+      "title": "MergeBodyStyle",
+      "description": "An enumeration.",
+      "enum": [
+        "github_default",
+        "pull_request_body",
+        "empty"
+      ]
+    },
+    "BodyText": {
+      "title": "BodyText",
+      "description": "An enumeration.",
+      "enum": [
+        "plain_text",
+        "markdown",
+        "html"
+      ]
+    },
+    "MergeMessage": {
+      "title": "MergeMessage",
+      "description": "https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button",
+      "type": "object",
+      "properties": {
+        "title": {
+          "default": "github_default",
+          "allOf": [
+            {
+              "$ref": "#/definitions/MergeTitleStyle"
+            }
+          ]
+        },
+        "body": {
+          "default": "github_default",
+          "allOf": [
+            {
+              "$ref": "#/definitions/MergeBodyStyle"
+            }
+          ]
+        },
+        "include_pr_number": {
+          "title": "Include Pr Number",
+          "default": true,
+          "type": "boolean"
+        },
+        "body_type": {
+          "default": "markdown",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BodyText"
+            }
+          ]
+        },
+        "strip_html_comments": {
+          "title": "Strip Html Comments",
+          "default": false,
+          "type": "boolean"
+        },
+        "include_pull_request_author": {
+          "title": "Include Pull Request Author",
+          "default": false,
+          "type": "boolean"
+        },
+        "include_coauthors": {
+          "title": "Include Coauthors",
+          "default": false,
+          "type": "boolean"
+        },
+        "include_pull_request_url": {
+          "title": "Include Pull Request Url",
+          "default": false,
+          "type": "boolean"
+        },
+        "cut_body_before": {
+          "title": "Cut Body Before",
+          "default": "",
+          "type": "string"
+        },
+        "cut_body_after": {
+          "title": "Cut Body After",
+          "default": "",
+          "type": "string"
+        },
+        "cut_body_and_text": {
+          "title": "Cut Body And Text",
+          "default": false,
+          "type": "boolean"
+        }
+      }
+    },
+    "Merge": {
+      "title": "Merge",
+      "type": "object",
+      "properties": {
+        "automerge_label": {
+          "title": "Automerge Label",
+          "default": "automerge",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "automerge_dependencies": {
+          "title": "Automerge Dependencies",
+          "default": {
+            "versions": [],
+            "usernames": []
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/AutomergeDependencies"
+            }
+          ]
+        },
+        "require_automerge_label": {
+          "title": "Require Automerge Label",
+          "default": true,
+          "type": "boolean"
+        },
+        "show_missing_automerge_label_message": {
+          "title": "Show Missing Automerge Label Message",
+          "default": true,
+          "type": "boolean"
+        },
+        "blacklist_title_regex": {
+          "title": "Blacklist Title Regex",
+          "default": ":::|||kodiak|||internal|||reserved|||:::",
+          "type": "string"
+        },
+        "blocking_title_regex": {
+          "title": "Blocking Title Regex",
+          "default": ":::|||kodiak|||internal|||reserved|||:::",
+          "type": "string"
+        },
+        "blacklist_labels": {
+          "title": "Blacklist Labels",
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blocking_labels": {
+          "title": "Blocking Labels",
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "method": {
+          "$ref": "#/definitions/MergeMethod"
+        },
+        "delete_branch_on_merge": {
+          "title": "Delete Branch On Merge",
+          "default": false,
+          "type": "boolean"
+        },
+        "block_on_reviews_requested": {
+          "title": "Block On Reviews Requested",
+          "default": false,
+          "type": "boolean"
+        },
+        "block_on_neutral_required_check_runs": {
+          "title": "Block On Neutral Required Check Runs",
+          "default": false,
+          "type": "boolean"
+        },
+        "notify_on_conflict": {
+          "title": "Notify On Conflict",
+          "default": true,
+          "type": "boolean"
+        },
+        "optimistic_updates": {
+          "title": "Optimistic Updates",
+          "default": true,
+          "type": "boolean"
+        },
+        "message": {
+          "title": "Message",
+          "default": {
+            "title": "github_default",
+            "body": "github_default",
+            "include_pr_number": true,
+            "body_type": "markdown",
+            "strip_html_comments": false,
+            "include_pull_request_author": false,
+            "include_coauthors": false,
+            "include_pull_request_url": false,
+            "cut_body_before": "",
+            "cut_body_after": "",
+            "cut_body_and_text": false
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/MergeMessage"
+            }
+          ]
+        },
+        "dont_wait_on_status_checks": {
+          "title": "Dont Wait On Status Checks",
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "update_branch_immediately": {
+          "title": "Update Branch Immediately",
+          "default": false,
+          "type": "boolean"
+        },
+        "prioritize_ready_to_merge": {
+          "title": "Prioritize Ready To Merge",
+          "default": false,
+          "type": "boolean"
+        },
+        "priority_merge_label": {
+          "title": "Priority Merge Label",
+          "type": "string"
+        },
+        "do_not_merge": {
+          "title": "Do Not Merge",
+          "default": false,
+          "type": "boolean"
+        }
+      }
+    },
+    "Update": {
+      "title": "Update",
+      "type": "object",
+      "properties": {
+        "always": {
+          "title": "Always",
+          "default": false,
+          "type": "boolean"
+        },
+        "require_automerge_label": {
+          "title": "Require Automerge Label",
+          "default": true,
+          "type": "boolean"
+        },
+        "autoupdate_label": {
+          "title": "Autoupdate Label",
+          "type": "string"
+        },
+        "blacklist_usernames": {
+          "title": "Blacklist Usernames",
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ignored_usernames": {
+          "title": "Ignored Usernames",
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Approve": {
+      "title": "Approve",
+      "type": "object",
+      "properties": {
+        "auto_approve_usernames": {
+          "title": "Auto Approve Usernames",
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "auto_approve_labels": {
+          "title": "Auto Approve Labels",
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

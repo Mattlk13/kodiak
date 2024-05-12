@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -ex
+
+
+if [ "$CI" ]; then
+  ./.venv/bin/pytest --cov=. --cov-report xml "$@"
+else
+  ./.venv/bin/pytest "$@"
+fi

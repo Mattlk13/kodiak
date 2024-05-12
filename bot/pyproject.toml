@@ -1,0 +1,131 @@
+[tool.poetry]
+name = "kodiak"
+version = "0.1.0"
+description = ""
+authors = ["Christopher Dignam <chris@dignam.xyz>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+uvicorn = "^0.15.0"
+toml = "^0.10.0"
+PyJWT = "^1.7"
+structlog = "^19.1"
+colorama = "^0.4.1"
+databases = "0.3.2"
+inflection = "0.5.1"
+markdown-html-finder = "^0.2.3"
+markupsafe = "^1.1"
+sentry-sdk = "^1.5.12"
+requests = "^2.22"
+# same as `rure` on pypi, but with arm64 builds for macos.
+kodiak_rure = "^0.2.2"
+zstandard = "^0.13.0"
+httpx = "^0.18.1"
+httpcore = "0.13.2"
+pydantic = "^1.9.1"
+starlette = "^0.20.4"
+redis = "^4.4.2"
+
+[tool.poetry.scripts]
+kodiak = 'kodiak.cli:cli'
+
+[tool.poetry.dev-dependencies]
+black = "^21.9b0"
+mypy = "^0.960"
+ipdb = "^0.13.9"
+pytest-mock = "3.3.1"
+typing_extensions = "^3.7"
+pylint = "^2.3"
+flake8 = "3.8.4"
+flake8-pie = "0.7.1"
+isort = "^4.3"
+pytest-cov = "^2.10"
+flake8-pyi = "^20.10"
+types-requests = "^2.28.0"
+types-toml = "^0.10.7"
+flake8-tidy-imports = "^4.8.0"
+pytest-asyncio = "0.20.1"
+pytest = "^7.2.0"
+types-redis = "^4.4.0"
+pytest-env = "^0.8.1"
+
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+known_third_party = ["redis"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+filterwarnings = [
+  # all warnings that are not ignored should raise an error
+  "error",
+  # pytest wants to remove the `message` kwarg to pytest.raises, but there isn't
+  # an alternative at the moment.
+  # https://github.com/pytest-dev/pytest/issues/3974
+  "ignore::pytest.PytestDeprecationWarning",
+  'ignore:invalid escape sequence:DeprecationWarning',
+]
+addopts = "--pdbcls IPython.terminal.debugger:TerminalPdb"
+env = [
+  "SECRET_KEY=some-random-key",
+  "DEBUG=1",
+  "REDIS_URL=redis://localhost:6379",
+  "GITHUB_APP_ID=534524",
+  "GITHUB_APP_NAME=kodiak-test-app",
+  "GITHUB_PRIVATE_KEY=-----BEGIN RSA PRIVATE KEY-----\nmockPrivateKeyDataSDLFKJSDLFSDLFJSDLKJF\n-----END RSA PRIVATE KEY-----\n",
+  "SUBSCRIPTIONS_ENABLED=1",
+]
+
+[tool.mypy]
+mypy_path = "./typings"
+
+show_column_numbers = true
+show_error_codes = true
+
+# nice to allow using types for docs even when they are Any
+disallow_any_unimported=false
+disallow_any_expr=false
+disallow_any_decorated=false
+disallow_any_explicit=false
+disallow_any_generics=true
+disallow_subclassing_any=true
+
+disallow_untyped_calls=true
+disallow_untyped_defs=true
+disallow_incomplete_defs=true
+check_untyped_defs=true
+disallow_untyped_decorators=true
+
+no_implicit_optional=true
+strict_optional=true
+
+warn_redundant_casts=true
+warn_unused_ignores=true
+warn_no_return=true
+warn_return_any=true
+# doesn't consider how methods can change the value of properties
+warn_unreachable=false
+
+strict_equality=true
+
+ignore_missing_imports=false
+
+# enable pydantic mypy plugin.
+plugins = [
+  "pydantic.mypy"
+]
+
+# https://pydantic-docs.helpmanual.io/mypy_plugin/#plugin-settings
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[build-system]
+requires = ["poetry>=1.1.8", "setuptools"]
+build-backend = "poetry.masonry.api"

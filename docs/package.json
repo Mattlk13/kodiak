@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "volta": {
+    "node": "12.4.0",
+    "yarn": "1.22.17"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.17",
+    "docusaurus": "^1.14.3",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.4"
+  }
+}
